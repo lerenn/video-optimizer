@@ -13,10 +13,18 @@ if [ "$1" == "" ]; then
 fi
 
 # Get files for specified format
+# for format in ${FORMATS[@]}; do
+#   find $PATH_TO_FILES -iname "*.$format" | while read file; do
+#     echo " - $file"
+#     FILES+=($file)
+#   done
+# done
+
 for format in ${FORMATS[@]}; do
-  for file in `find $PATH_TO_FILES -iname "*.$format"`; do
-    FILES+=($file)
-  done
+  while IFS= read -r -d $'\0'; do
+      echo " - $REPLY"
+      FILES+=("$REPLY")
+  done < <(find $PATH_TO_FILES -iname "*.$format" -print0)
 done
 
 # Check if there is files
@@ -25,11 +33,24 @@ if [ ${#FILES[@]}  == 0 ]; then
   exit
 fi
 
+# displayPrompt
+echo "Those file will be converted."
+read -p "Are you sure? [yN] " -n 1 -r
+echo # Move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo "Exiting..."
+  exit 1
+fi
+
 # Processing files
-for file in ${FILES[@]}; do
+for file in "${FILES[@]}"; do
   # Get new file name
-  newfile="${file%.*}.FINAL_FORMAT"
-  echo " > Processing '$file' to '$newfile'"
+  newfile="${file%.*}.$FINAL_FORMAT"
+  echo -n "> Processing '$file' to '$newfile'... "
   # Transform the file and remove old one if successful
-  ffmpeg -i $file -vcodec libx264 -crf 20 $newfile && rm $file
+  ffmpeg -loglevel panic -i "$file" -vcodec libx264 -crf 20 "$newfile" && rm "$file"
+  echo "Done."
 done
+
+echo "All convertions are completed."

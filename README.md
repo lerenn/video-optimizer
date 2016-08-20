@@ -1,5 +1,5 @@
 # Video-reducer
-Script to reduce video size, with ffmpeg.
+Script to reduce video size (recursively), with ffmpeg.
 
 ## Requirements
 
@@ -10,7 +10,7 @@ Script to reduce video size, with ffmpeg.
 
     ./convert.sh /path/to/files
 
-The script will search recursively into the `/path/to/files` for videos with format written into the script.
+The script will search **recursively** into the `/path/to/files` for videos with format written into the script.
 
 ### Change format
 
