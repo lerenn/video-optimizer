@@ -26,7 +26,7 @@ if [ ${#FILES[@]}  == 0 ]; then
   exit
 fi
 
-# displayPrompt
+# display prompt before launching convertion
 echo "Those file will be converted."
 read -p "Are you sure? [yN] " -n 1 -r
 echo # Move to a new line
