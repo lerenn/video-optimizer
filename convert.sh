@@ -13,13 +13,6 @@ if [ "$1" == "" ]; then
 fi
 
 # Get files for specified format
-# for format in ${FORMATS[@]}; do
-#   find $PATH_TO_FILES -iname "*.$format" | while read file; do
-#     echo " - $file"
-#     FILES+=($file)
-#   done
-# done
-
 for format in ${FORMATS[@]}; do
   while IFS= read -r -d $'\0'; do
       echo " - $REPLY"
