@@ -17,7 +17,7 @@ for format in ${FORMATS[@]}; do
   while IFS= read -r -d $'\0'; do
       echo " - $REPLY"
       FILES+=("$REPLY")
-  done < <(find $PATH_TO_FILES -iname "*.$format" -print0)
+  done < <(find "$PATH_TO_FILES" -iname "*.$format" -print0)
 done
 
 # Check if there is files
