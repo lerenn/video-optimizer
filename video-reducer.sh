@@ -36,6 +36,7 @@ then
 fi
 
 # Processing files
+echo "" # Skip a line
 for file in "${FILES[@]}"; do
   # Get new file name
   newfile="${file%.*}.$FINAL_FORMAT"
