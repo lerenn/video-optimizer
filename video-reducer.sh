@@ -29,7 +29,6 @@ fi
 # display prompt before launching convertion
 echo "Those file will be converted."
 read -p "Are you sure? [yN] " -n 1 -r
-echo # Move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
   echo "Exiting..."
