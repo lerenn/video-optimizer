@@ -2,7 +2,7 @@
 
 # Variables
 PATH_TO_FILES="$1"
-FORMATS=("mov" "mp4" "avi" "mpg" "3gp" "mts" "m4v")
+FORMATS=("avi" "mov" "mp4" "avi" "mpg" "3gp" "mts" "m4v")
 FINAL_FORMAT="mkv"
 FILES=()
 
@@ -27,7 +27,7 @@ if [ ${#FILES[@]}  == 0 ]; then
 fi
 
 # display prompt before launching convertion
-echo "Those file will be converted."
+echo "${#FILES[@]} files will be converted."
 read -p "Are you sure? [yN] " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
