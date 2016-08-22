@@ -2,7 +2,7 @@
 
 # Variables
 PATH_TO_FILES="$1"
-FORMATS=("avi" "mov" "mp4" "avi" "mpg" "3gp" "mts" "m4v")
+FORMATS=("avi" "mov" "mp4" "mpg" "3gp" "mts" "m4v")
 FINAL_FORMAT="mkv"
 FILES=()
 
@@ -40,7 +40,7 @@ echo "" # Skip a line
 for file in "${FILES[@]}"; do
   # Get new file name
   newfile="${file%.*}.$FINAL_FORMAT"
-  echo -n "> Processing '$file' to '$newfile'... "
+  echo -n "> Processing '$file'... "
   # Transform the file and remove old one if successful
   ffmpeg -loglevel panic -i "$file" -vcodec libx264 -crf 20 "$newfile" && rm "$file"
   echo "Done."
