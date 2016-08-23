@@ -6,6 +6,15 @@ FORMATS=("avi" "mov" "mp4" "mpg" "3gp" "mts" "m4v")
 FINAL_FORMAT="mkv"
 FILES=()
 
+# Check interrupt
+trap interrupt INT
+
+function interrupt {
+        echo "Interrupted"
+        rm -rf "$newfile"
+        exit
+}
+
 # Check path to files
 if [ "$1" == "" ]; then
   echo "No path to file was put as an argument"
