@@ -2,7 +2,7 @@
 
 # Variables
 PATH_TO_FILES="$1"
-FORMATS=("avi" "mov" "mp4" "mpg" "3gp" "mts" "m4v")
+FORMATS=("3gp" "avi" "m4v" "mov" "mp4" "mpg" "mts" "ogm")
 FINAL_FORMAT="mkv"
 FILES=()
 
