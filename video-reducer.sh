@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# Variables
-PATH_TO_FILES="$1"
+# Custom variables
 FORMATS=("3gp" "avi" "m4v" "mov" "mp4" "mpg" "mts" "ogm")
+SPEED=veryslow
+
+# "Constant" variables
+PATH_TO_FILES="$1"
 FINAL_FORMAT="mkv"
 FILES=()
 
@@ -51,7 +54,7 @@ for file in "${FILES[@]}"; do
   newfile="${file%.*}.$FINAL_FORMAT"
   echo -n "> Processing '$file'... "
   # Transform the file and remove old one if successful
-  ffmpeg -loglevel panic -i "$file" -vcodec libx264 -crf 20 "$newfile" && rm "$file"
+  ffmpeg -loglevel panic -i "$file" -c:v libx264 -c:a copy -preset $SPEED -crf 23 "$newfile" && rm "$file"
   echo "Done."
 done
 
