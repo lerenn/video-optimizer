@@ -54,7 +54,7 @@ for file in "${FILES[@]}"; do
   newfile="${file%.*}.$FINAL_FORMAT"
   echo -n "> Processing '$file'... "
   # Transform the file and remove old one if successful
-  ffmpeg -loglevel panic -i "$file" -c:v libx264 -c:a copy -preset $SPEED -crf 23 "$newfile" && rm "$file"
+  ffmpeg -loglevel panic -i "$file" -c:v libx265 -c:a aac -b:a 128k -preset $SPEED "$newfile" && rm "$file"
   echo "Done."
 done
 
