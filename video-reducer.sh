@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Custom variables
-FORMATS=("3gp" "avi" "m4v" "mov" "mp4" "mpg" "mts" "ogm")
-SPEED=veryslow
+SCALE="-1:1080" # -1 will automatically keep ratio
 
 # "Constant" variables
+FORMATS=("3gp" "avi" "m4v" "mov" "mp4" "mpg" "mts" "ogm")
+SPEED=veryslow
 PATH_TO_FILES="$1"
 FINAL_FORMAT="mkv"
 FILES=()
@@ -38,6 +39,12 @@ if [ ${#FILES[@]}  == 0 ]; then
   exit
 fi
 
+# Check if scaling is activated
+if [ $SCALE != "" ]; then
+  echo "Scaling activated to $SCALE"
+  SCALE="-vf scale=$SCALE"
+fi
+
 # display prompt before launching convertion
 echo "${#FILES[@]} files will be converted."
 read -p "Are you sure? [yN] " -n 1 -r
@@ -46,15 +53,15 @@ then
   echo "Exiting..."
   exit 1
 fi
+echo "" # Skip a line
 
 # Processing files
-echo "" # Skip a line
 for file in "${FILES[@]}"; do
   # Get new file name
   newfile="${file%.*}.$FINAL_FORMAT"
   echo -n "> Processing '$file'... "
   # Transform the file and remove old one if successful
-  ffmpeg -loglevel panic -i "$file" -c:v libx265 -c:a aac -b:a 128k -preset $SPEED "$newfile" && rm "$file"
+  ffmpeg -loglevel panic -i "$file" $SCALE -c:v libx265 -c:a aac -b:a 128k -preset $SPEED "$newfile" && rm "$file"
   echo "Done."
 done
 
