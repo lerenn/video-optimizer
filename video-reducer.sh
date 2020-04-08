@@ -25,7 +25,7 @@ function interrupt {
 
 # Check path to files
 if [ "$1" == "" ]; then
-  echo "No path to file was put as an argument"
+  echo "No path to files was put as an argument"
   exit
 fi
 
@@ -54,6 +54,7 @@ echo "${#FILES[@]} files will be converted."
 read -p "Are you sure? [yN] " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
+  echo ""
   echo "Exiting..."
   exit 1
 fi
@@ -63,9 +64,10 @@ echo "" # Skip a line
 for file in "${FILES[@]}"; do
   # Get new file name
   newfile="${file%.*}.$FINAL_FORMAT"
-  echo -e "$GREEN> Processing '$file'... $NC"
+  echo -e "$GREEN[$(date)] Processing '$file'... $NC"
   # Transform the file and remove old one if successful
-  ffmpeg -loglevel panic \
+  ffmpeg -loglevel warning \
+    -v quiet -stats \
     -i "$file" \
     -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" \
     -c:v libx265 \
