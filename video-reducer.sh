@@ -66,9 +66,11 @@ for file in "${FILES[@]}"; do
   newfile="${file%.*}.$FINAL_FORMAT"
   echo -e "$GREEN[$(date)] Processing '$file'... $NC"
 
-  # Display frames numbers
-  FRAMES_NB=$(ffprobe -select_streams v -show_streams "${file}" |& grep nb_frames)
-  echo "Number of frames for this video: ${FRAMES_NB}"
+  # Display infos
+  echo "# Extra informations"
+  ffprobe -select_streams v -show_streams "${file}" |& grep nb_frames
+  ffprobe -select_streams v -show_streams "${file}" |& grep "Duration:"
+  echo "###"
 
   # Transform the file and remove old one if successful
   ffmpeg -loglevel warning \
