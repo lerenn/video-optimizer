@@ -5,7 +5,7 @@ You can specify scaling (default: 1920x1808) and deactivate it if needed.
 
 ## Requirements
 
-* ffmpeg
+* ffmpeg (use snap version or compiled with x265)
 * find (should be installed)
 
 ## Use
