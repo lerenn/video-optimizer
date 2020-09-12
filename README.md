@@ -17,8 +17,7 @@ The script will search **recursively** into the `/path/to/files` for videos with
 
 ### Change scaling
 
-To change scaling, change the variable name `SCALE` to the desired value.
-If needed, you can comment it and the video scale won't be modified.
+To change scaling, export the variable name `SCALE` to the desired value (example: `export SCALE=1920:1080`).
 
 ### Change format
 

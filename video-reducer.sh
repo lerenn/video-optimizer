@@ -33,6 +33,13 @@ if [ "$1" == "" ]; then
   exit
 fi
 
+# Check if scaling is activated
+if [ "$SCALE" != "" ]; then
+  echo "Scaling activated to $SCALE"
+  SCALE_ARG="-vf scale=$SCALE:force_original_aspect_ratio=decrease,pad=$SCALE:(ow-iw)/2:(oh-ih)/2"
+  echo "$SCALE_ARG"
+fi
+
 # Get files for specified format
 for format in ${FORMATS[@]}; do
   while IFS= read -r -d $'\0'; do
@@ -74,6 +81,7 @@ for file in "${FILES[@]}"; do
   $FFMPEG -loglevel warning \
     -v quiet -stats \
     -i "$file" \
+    $SCALE_ARG \
     -c:v libx265 \
     -c:a libfdk_aac -b:a 128k \
     -preset $SPEED \
