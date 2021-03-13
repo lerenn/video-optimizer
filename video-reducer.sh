@@ -7,6 +7,9 @@ PATH_TO_FILES="$1"
 FINAL_FORMAT="mkv"
 FILES=()
 
+# Export library path that could be missing
+LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64 && export LD_LIBRARY_PATH
+
 # Check ffmpeg binaries
 if test -f "/snap/bin/ffmpeg"; then
 	FFMPEG="/snap/bin/ffmpeg"

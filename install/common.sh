@@ -57,13 +57,23 @@ cd lame-3.99.5
 make -j $(nproc)
 sudo make install
 
+# Vidstab
+mkdir -p ${WORK_DIR} && cd ${WORK_DIR}
+if [ ! -d "${WORK_DIR}/vid.stab" ]; then
+      git clone --recursive https://github.com/georgmartius/vid.stab.git
+fi
+cd vid.stab
+cmake .
+make
+sudo make install
+
 # ffmpeg
 mkdir -p ${WORK_DIR} && cd ${WORK_DIR}
 if [ ! -d "${WORK_DIR}/ffmpeg" ]; then
       git clone git://source.ffmpeg.org/ffmpeg
 fi
 cd ffmpeg
-PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure --extra-libs=-lpthread --prefix="/usr/local" --extra-cflags="-I/usr/local/include" --extra-ldflags="-L/usr/local/lib" --pkg-config-flags="--static" --enable-gpl --enable-nonfree --enable-libfdk-aac --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265
+PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure --extra-libs=-lpthread --prefix="/usr/local" --extra-cflags="-I/usr/local/include" --extra-ldflags="-L/usr/local/lib" --pkg-config-flags="--static" --enable-gpl --enable-nonfree --enable-libfdk-aac --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libvidstab 
 make -j $(nproc)
 sudo make install
 hash -r
