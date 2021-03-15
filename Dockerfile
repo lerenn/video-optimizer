@@ -19,3 +19,6 @@ RUN bash /docker/ffmpeg/fedora.sh && \
 
 # Create a volume for data
 VOLUME /data
+
+# Copy scripts
+COPY scripts/* /usr/bin
