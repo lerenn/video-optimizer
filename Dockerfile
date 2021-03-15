@@ -18,7 +18,7 @@ RUN bash /docker/ffmpeg/fedora.sh && \
 VOLUME /data
 
 # Copy scripts
-COPY scripts/* /usr/bin
+COPY scripts/ /usr/bin
 
 # Set environment variables
 ENV LD_LIBRARY_PATH /usr/local/lib:/usr/local/lib64
