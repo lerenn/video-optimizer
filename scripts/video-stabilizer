@@ -2,9 +2,8 @@
 
 # Constants
 FORMATS=("3gp" "avi" "m4v" "mov" "mp4" "mpg" "mts" "ogm")
-SPEED=veryslow
+NICE_LEVEL="+19"
 PATH_TO_FILES="$1"
-FINAL_FORMAT="mkv"
 FILES=()
 
 # Export library path that could be missing
@@ -36,13 +35,6 @@ if [ "$1" == "" ]; then
   exit
 fi
 
-# Check if scaling is activated
-if [ "$SCALE" != "" ]; then
-  echo "Scaling activated to $SCALE"
-  SCALE_ARG="-vf scale=$SCALE:force_original_aspect_ratio=decrease,pad=$SCALE:(ow-iw)/2:(oh-ih)/2"
-  echo "$SCALE_ARG"
-fi
-
 # Get files for specified format
 for format in ${FORMATS[@]}; do
   while IFS= read -r -d $'\0'; do
@@ -58,7 +50,7 @@ if [ ${#FILES[@]}  == 0 ]; then
 fi
 
 # display prompt before launching convertion
-echo "${#FILES[@]} files will be converted."
+echo "${#FILES[@]} files will be stabilized."
 if [ -z "$NO_INTERACTION_MODE" ]; then
   read -p "Are you sure? [yN] " -n 1 -r
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -71,26 +63,14 @@ fi
 
 # Processing files
 for file in "${FILES[@]}"; do
-  # Get new file name
-  newfile="${file%.*}.$FINAL_FORMAT"
-  echo -e "$GREEN[$(date)] Processing '$file'... $NC"
+  extension="${file##*.}"
+  filename="${file%.*}"
+  newfile="$filename.stabilized.$extension"
 
-  # Display infos
-  echo "# Extra informations"
-  ffprobe -select_streams v -show_streams "${file}" |& grep nb_frames
-  ffprobe -select_streams v -show_streams "${file}" |& grep "Duration:"
-  echo "###"
-
-  # Transform the file and remove old one if successful
-  $FFMPEG -loglevel warning \
-    -v quiet -stats \
-    -i "$file" \
-    $SCALE_ARG \
-    -c:v libx265 \
-    -c:a libfdk_aac -b:a 128k \
-    -preset $SPEED \
-    "$newfile" &&  \
-    rm "$file"
+  echo -e "$GREEN[$(date)] Stabilizing '$file' to '$newfile'... $NC"
+  nice -n $NICE_LEVEL ffmpeg -i "$file" -vf vidstabdetect -f null - && \
+  nice -n $NICE_LEVEL ffmpeg -i "$file" -vf vidstabtransform=input='transforms.trf' "$newfile" &&  \
+  rm "$file" transforms.trf
 done
 
-echo "All convertions are completed."
+echo "All stabilizations are completed."
