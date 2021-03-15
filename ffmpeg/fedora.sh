@@ -9,8 +9,11 @@
 #
 # Tested on Fedora 30.
 
+# Get actual directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 # Install build requirements.
-sudo dnf install -y \
+sudo yum install -y \
       autoconf \
       automake \
       cmake \
@@ -30,4 +33,4 @@ sudo dnf install -y \
       yasm \
       zlib-devel
 
-bash common.sh
+bash ${DIR}/common.sh

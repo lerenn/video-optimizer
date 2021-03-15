@@ -10,7 +10,8 @@
 # Tested on Fedora 30.
 
 # Set variables
-WORK_DIR="${PWD}/build"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+WORK_DIR="${DIR}/build"
 
 # Set
 set -eux
