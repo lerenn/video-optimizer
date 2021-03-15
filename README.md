@@ -31,6 +31,13 @@ You can change speed by changing the variable `SPEED`. Faster = less compression
 
 Possible values: ultrafast,superfast, veryfast, faster, fast, medium, slow, slower, veryslow.
 
+### No interaction mode
+
+You can choose to have no interaction with the script, when using it automatically for example,
+by export the variable "NO_INTERACTION_MODE" to any value.
+
+Unsetting it will bring back default mode.
+
 ## Disclaimer
 
 I use this script for my own files. I DO NOT guarantee the desired operation to be successful. Try this script at your own risk.

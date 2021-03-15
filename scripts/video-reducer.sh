@@ -59,14 +59,15 @@ fi
 
 # display prompt before launching convertion
 echo "${#FILES[@]} files will be converted."
-read -p "Are you sure? [yN] " -n 1 -r
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-  echo ""
-  echo "Exiting..."
-  exit 1
+if [ -z "$NO_INTERACTION_MODE" ]; then
+  read -p "Are you sure? [yN] " -n 1 -r
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo ""
+    echo "Exiting..."
+    exit 1
+  fi
+  echo "" # Skip a line
 fi
-echo "" # Skip a line
 
 # Processing files
 for file in "${FILES[@]}"; do
